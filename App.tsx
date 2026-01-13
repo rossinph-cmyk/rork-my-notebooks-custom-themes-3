@@ -6,7 +6,7 @@ import { HomeScreen } from './src/screens/HomeScreen';
 import { NotebookScreen } from './src/screens/NotebookScreen';
 import { RootStackParamList } from './src/navigation/RootNavigator';
 import { StatusBar } from 'expo-status-bar';
-import { useOnboardingStore } from './contexts/OnboardingStore';
+import { useNotebookStore } from './src/state/notebookStore';
 import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 import OnboardingSlideshow from './components/OnboardingSlideshow';
 import * as ImagePicker from 'expo-image-picker';
@@ -14,10 +14,10 @@ import * as ImagePicker from 'expo-image-picker';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  const hasAcceptedPrivacyPolicy = useOnboardingStore((s) => s.hasAcceptedPrivacyPolicy);
-  const hasCompletedOnboarding = useOnboardingStore((s) => s.hasCompletedOnboarding);
-  const acceptPrivacyPolicy = useOnboardingStore((s) => s.acceptPrivacyPolicy);
-  const completeOnboarding = useOnboardingStore((s) => s.completeOnboarding);
+  const hasAcceptedPrivacyPolicy = useNotebookStore((s) => s.hasAcceptedPrivacyPolicy);
+  const hasCompletedOnboarding = useNotebookStore((s) => s.hasCompletedOnboarding);
+  const acceptPrivacyPolicy = useNotebookStore((s) => s.acceptPrivacyPolicy);
+  const completeOnboarding = useNotebookStore((s) => s.completeOnboarding);
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
