@@ -46,14 +46,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [showFeaturesSlideshow, setShowFeaturesSlideshow] = useState(false);
   const sliderWidth = 280;
 
-  React.useEffect(() => {
-    setShowHomeImagePicker(false);
-    setShowImagePicker(false);
-    setShowColorPicker(false);
-    setModalVisible(false);
-    setEditingNameId(null);
-    setShowFeaturesSlideshow(false);
-  }, []);
+
 
   const hslToHex = (h: number, s: number, l: number): string => {
     l /= 100;
