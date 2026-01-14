@@ -55,15 +55,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     setShowFeaturesSlideshow(false);
   }, []);
 
-  const handleResetApp = async () => {
-    try {
-      await AsyncStorage.clear();
-      Alert.alert("App Reset", "Please reload the app to see the privacy policy and onboarding screens.");
-    } catch {
-      Alert.alert("Error", "Failed to reset the app.");
-    }
-  };
-
   const hslToHex = (h: number, s: number, l: number): string => {
     l /= 100;
     const a = s * Math.min(l, 1 - l) / 100;
@@ -309,35 +300,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.headerButtons}>
-            <Pressable
-              onPress={() => {
-                Alert.alert(
-                  "Reset App",
-                  "Reset app to first-time startup? This will show the privacy policy and onboarding screens again.",
-                  [
-                    { text: "Cancel", style: "cancel" },
-                    { text: "Reset", style: "destructive", onPress: handleResetApp }
-                  ]
-                );
-              }}
-              onLongPress={() => {
-                Alert.alert(
-                  "Reset App",
-                  "Reset app to first-time startup? This will show the privacy policy and onboarding screens again.",
-                  [
-                    { text: "Cancel", style: "cancel" },
-                    { text: "Reset", style: "destructive", onPress: handleResetApp }
-                  ]
-                );
-              }}
-              style={[styles.iconButton, { backgroundColor: darkMode ? "#1F1F1F" : "#FDE68A" }]}
-            >
-              <Ionicons
-                name="refresh"
-                size={28}
-                color={darkMode ? "#A855F7" : "#78350F"}
-              />
-            </Pressable>
             <Pressable
               onPress={() => {
                 setShowFeaturesSlideshow(true);

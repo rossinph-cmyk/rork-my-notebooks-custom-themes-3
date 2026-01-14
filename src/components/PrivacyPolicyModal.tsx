@@ -18,8 +18,11 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
 
   const handleScroll = (event: any) => {
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-    const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 10;
-    if (isCloseToBottom && !hasScrolledToBottom) {
+    // Very lenient threshold - trigger when scrolled past 70% or within 200px of bottom
+    const scrollPercentage = (contentOffset.y + layoutMeasurement.height) / contentSize.height;
+    const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 200;
+    
+    if ((scrollPercentage >= 0.7 || isCloseToBottom) && !hasScrolledToBottom) {
       setHasScrolledToBottom(true);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
@@ -58,7 +61,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({
           nestedScrollEnabled={true}
           bounces={true}
           onScroll={handleScroll}
-          scrollEventThrottle={400}
+          scrollEventThrottle={16}
         >
           <Text style={styles.paragraph}>
             Welcome! Before you start using Voice Notepad, please take a moment to read and understand our Privacy Policy. Your privacy and security are our top priorities.

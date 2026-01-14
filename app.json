@@ -5,10 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "resizeMode": "contain",
-      "backgroundColor": "#FEF3C7"
+      "backgroundColor": "#FEF3C7",
+      "image": "./assets/images/icon.png"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -43,7 +44,7 @@
         "WRITE_CONTACTS"
       ],
       "enableProguardInReleaseBuilds": true,
-      "enableShrinkResourcesInReleaseBuilds": true,
+      "enableShrinkResourcesInReleaseBuilds": false,
       "proguardFiles": [
         "proguard-rules.pro"
       ]

@@ -7,8 +7,8 @@ import { NotebookScreen } from './src/screens/NotebookScreen';
 import { RootStackParamList } from './src/navigation/RootNavigator';
 import { StatusBar } from 'expo-status-bar';
 import { useOnboardingStore } from './contexts/OnboardingStore';
-import PrivacyPolicyModal from './components/PrivacyPolicyModal';
-import OnboardingSlideshow from './components/OnboardingSlideshow';
+import { PrivacyPolicyModal } from './src/components/PrivacyPolicyModal';
+import { OnboardingSlideshow } from './src/components/OnboardingSlideshow';
 import * as ImagePicker from 'expo-image-picker';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

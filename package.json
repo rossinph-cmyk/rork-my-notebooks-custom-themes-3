@@ -1,6 +1,6 @@
 {
   "name": "expo-app",
-  "main": "expo/AppEntry.js",
+  "main": "index.js",
   "version": "1.0.0",
   "scripts": {
     "start": "bunx rork start -p rl0o2ym90p13ovaa41bmu --tunnel",
@@ -8,7 +8,9 @@
     "start-web-dev": "DEBUG=expo* bunx rork start -p rl0o2ym90p13ovaa41bmu --web --tunnel",
     "lint": "expo lint",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "postinstall": "node scripts/patch-react-native.js",
+    "patch": "node scripts/patch-react-native.js"
   },
   "dependencies": {
     "@ai-sdk/react": "^2.0.80",

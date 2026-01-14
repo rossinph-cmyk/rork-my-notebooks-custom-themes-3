@@ -1,6 +1,49 @@
-# My-Notebooks-Custom-Themes App - ProGuard Rules for R8 Optimization
+# ==========================================================================
+# React Native 0.81.5 R8 Compatibility - PATCHED
+# ==========================================================================
 
-# React Native Core
+# Keep all React Native classes - NO OBFUSCATION
+-keep,includedescriptorclasses class com.facebook.react.** { *; }
+-keep,includedescriptorclasses class com.facebook.jni.** { *; }
+-keep,includedescriptorclasses class com.facebook.hermes.** { *; }
+-keep,includedescriptorclasses class com.facebook.soloader.** { *; }
+-keep,includedescriptorclasses class com.facebook.yoga.** { *; }
+
+# Keep our stub feature flags implementation
+-keep class com.facebook.react.internal.featureflags.ReactNativeFeatureFlagsCxxInterop { *; }
+
+# Keep SoLoader - CRITICAL
+-keep class com.facebook.soloader.SoLoader { *; }
+-keep class com.facebook.soloader.** { *; }
+-keepclassmembers class com.facebook.soloader.** { *; }
+
+# Disable obfuscation completely for React Native
+-dontobfuscate
+
+# Keep native methods - ENHANCED JNI SUPPORT
+-keepclassmembers class * {
+    native <methods>;
+}
+-keepclasseswithmembers class * {
+    native <methods>;
+}
+
+# Expo Modules
+-keep class expo.modules.** { *; }
+-keep interface expo.modules.** { *; }
+-keep,includedescriptorclasses class expo.modules.rncompatibility.** { *; }
+
+# Don't warn about missing classes
+-dontwarn com.facebook.react.**
+-dontwarn expo.modules.**
+-dontwarn com.facebook.hermes.**
+-dontwarn com.facebook.jni.**
+
+# ==========================================================================
+# My-Notebooks-Custom-Themes App - ProGuard Rules for R8 Optimization
+# ==========================================================================
+
+# React Native Core (additional rules)
 -keep class com.facebook.react.** { *; }
 -keep class com.facebook.hermes.** { *; }
 -keep class com.facebook.jni.** { *; }
