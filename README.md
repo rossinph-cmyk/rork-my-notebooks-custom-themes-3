@@ -334,6 +334,46 @@ const newId = generateId(); // e.g., "1737064200123-456789"
 - Works on all platforms without polyfills
 - Simpler and lighter than UUID libraries
 
+### **Sharing only works with WhatsApp?**
+
+If your share functionality is limited to WhatsApp only, you can enable sharing to all available apps (Messenger, SMS, Email, Telegram, etc.) by using React Native's native Share API directly.
+
+**Solution: Use Share.share() directly instead of forcing WhatsApp first**
+
+The issue occurs when code tries to open WhatsApp specifically before falling back to the share sheet. Instead, use the native share sheet immediately:
+
+```typescript
+// Instead of trying WhatsApp first:
+// const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(noteText)}`;
+// await Linking.openURL(whatsappUrl);
+
+// Use Share.share() directly:
+const result = await Share.share({
+  message: noteText,
+  title: 'Share Note'
+});
+
+if (result.action === Share.sharedAction) {
+  // Note was shared
+  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+} else if (result.action === Share.dismissedAction) {
+  // Share was dismissed
+  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+}
+```
+
+**What was changed:**
+- Removed WhatsApp-specific `Linking.openURL()` logic
+- Use `Share.share()` as the primary sharing method
+- Added proper handling for `dismissedAction`
+- Improved error handling and haptic feedback
+
+**Why this works:**
+- Shows native Android/iOS share sheet with ALL installed apps
+- Users can choose any app: WhatsApp, Messenger, SMS, Email, Telegram, etc.
+- Platform-native behavior and UI
+- No need for app-specific URLs or permissions
+
 ### **Need help with native features?**
 
 - Check [Expo's documentation](https://docs.expo.dev/) for native APIs
