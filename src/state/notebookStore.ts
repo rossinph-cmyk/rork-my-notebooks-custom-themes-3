@@ -1,8 +1,10 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { v4 as uuidv4 } from "uuid";
 import { Notebook, Note, HighlightRange } from "../types/notebook";
+
+// Simple ID generator using timestamp + random number (no crypto needed)
+const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
 
 interface NotebookState {
   notebooks: Notebook[];
@@ -65,7 +67,7 @@ export const useNotebookStore = create<NotebookState>()(
             ...state.notebooks,
             {
               ...notebook,
-              id: uuidv4(),
+              id: generateId(),
               notes: [],
               createdAt: Date.now(),
             },
@@ -97,7 +99,7 @@ export const useNotebookStore = create<NotebookState>()(
                   ...nb,
                   notes: [
                     {
-                      id: uuidv4(),
+                      id: generateId(),
                       text: noteText,
                       createdAt: Date.now(),
                       updatedAt: Date.now(),

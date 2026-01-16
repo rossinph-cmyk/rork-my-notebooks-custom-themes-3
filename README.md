@@ -305,6 +305,35 @@ For mobile apps, you'll configure your app's deep linking scheme in `app.json`.
 2. Delete `node_modules` and reinstall: `rm -rf node_modules && bun install`
 3. Check [Expo's troubleshooting guide](https://docs.expo.dev/troubleshooting/build-errors/)
 
+### **crypto.getRandomValues() error when saving data?**
+
+If you encounter a `crypto.getRandomValues()` error on Android when using AsyncStorage or saving data, this is due to React Native's limited crypto support. The fix implemented in this project:
+
+**Solution: Use timestamp-based ID generation instead of UUID**
+
+Replace UUID libraries with a simple timestamp + random number generator:
+
+```typescript
+// Instead of: import { v4 as uuidv4 } from 'uuid';
+// Use this:
+const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+
+// Usage:
+const newId = generateId(); // e.g., "1737064200123-456789"
+```
+
+**What was changed:**
+- Removed `uuid` package dependency
+- Removed `react-native-get-random-values` polyfill
+- Implemented custom `generateId()` function in `src/state/notebookStore.ts`
+- This eliminates the need for crypto polyfills while maintaining unique IDs
+
+**Why this works:**
+- No crypto API required
+- IDs are still unique (timestamp + random ensures no collisions)
+- Works on all platforms without polyfills
+- Simpler and lighter than UUID libraries
+
 ### **Need help with native features?**
 
 - Check [Expo's documentation](https://docs.expo.dev/) for native APIs
