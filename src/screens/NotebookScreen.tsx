@@ -615,33 +615,23 @@ export const NotebookScreen: React.FC<NotebookScreenProps> = ({ navigation, rout
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-      // Try to open WhatsApp directly with the message
-      // Skip canOpenURL check as it requires Info.plist configuration
-      const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(noteText)}`;
+      // Use native share sheet to show all available sharing apps
+      // This will display WhatsApp, Messenger, SMS, Email, and any other installed apps
+      const result = await Share.share({ 
+        message: noteText,
+        title: 'Share Note' // Optional title for Android
+      });
 
-      // Try opening WhatsApp directly - this will work if WhatsApp is installed
-      const opened = await Linking.openURL(whatsappUrl).then(() => true).catch(() => false);
-
-      if (opened) {
+      if (result.action === Share.sharedAction) {
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      } else {
-        // WhatsApp not available, use native share
-        const result = await Share.share({ message: noteText });
-        if (result.action === Share.sharedAction) {
-          await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        }
+      } else if (result.action === Share.dismissedAction) {
+        // User dismissed the share dialog
+        console.log('Share dismissed');
       }
     } catch (error) {
-      // Fallback to native share sheet
-      try {
-        const result = await Share.share({ message: noteText });
-        if (result.action === Share.sharedAction) {
-          await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        }
-      } catch (shareError) {
-        console.error("Error sharing:", shareError);
-        Alert.alert("Share Error", "Failed to share the note. Please try again.");
-      }
+      console.error("Error sharing:", error);
+      Alert.alert("Share Error", "Failed to share the note. Please try again.");
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
   };
 
